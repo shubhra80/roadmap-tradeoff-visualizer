@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  color-scheme: light dark;
+}
+
+/* Decorative theme accent — always paired with the plain-text theme label,
+   never the sole carrier of meaning. */
+.theme-dot,
+.accent-bar {
+  background-color: var(--accent-light);
+}
+@media (prefers-color-scheme: dark) {
+  .theme-dot,
+  .accent-bar {
+    background-color: var(--accent-dark);
+  }
+}
+
+/* Range slider: recessive track, accent-colored thumb/fill via accent-color */
+input[type="range"] {
+  accent-color: var(--accent-light, #2a78d6);
+}
+@media (prefers-color-scheme: dark) {
+  input[type="range"] {
+    accent-color: var(--accent-dark, #3987e5);
+  }
+}
