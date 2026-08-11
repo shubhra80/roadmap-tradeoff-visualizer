@@ -3,28 +3,28 @@
 @tailwind utilities;
 
 html {
-  color-scheme: light dark;
+  color-scheme: dark;
+}
+
+body {
+  background-color: #0e1a2b;
+  color: #dce8f5;
+  font-family: Inter, sans-serif;
+  /* Drafting-paper motif: faint ruled grid, like graph paper under a blueprint. */
+  background-image:
+    linear-gradient(rgba(111, 184, 232, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(111, 184, 232, 0.05) 1px, transparent 1px);
+  background-size: 32px 32px;
 }
 
 /* Decorative theme accent — always paired with the plain-text theme label,
    never the sole carrier of meaning. */
 .theme-dot,
 .accent-bar {
-  background-color: var(--accent-light);
-}
-@media (prefers-color-scheme: dark) {
-  .theme-dot,
-  .accent-bar {
-    background-color: var(--accent-dark);
-  }
+  background-color: var(--accent);
 }
 
 /* Range slider: recessive track, accent-colored thumb/fill via accent-color */
 input[type="range"] {
-  accent-color: var(--accent-light, #2a78d6);
-}
-@media (prefers-color-scheme: dark) {
-  input[type="range"] {
-    accent-color: var(--accent-dark, #3987e5);
-  }
+  accent-color: var(--accent, #6fb8e8);
 }
