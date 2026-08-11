@@ -15,23 +15,26 @@ export default function RoadmapCard({ feature, score, muted = false }) {
     >
       <div className="accent-bar absolute inset-y-0 left-0 w-1" aria-hidden="true" />
 
-      <div className="flex items-start justify-between gap-2">
-        <h3 className="text-sm font-semibold leading-snug text-[#DCE8F5]">{feature.title}</h3>
-        <span
-          className="shrink-0 rounded-sm border border-ink/40 bg-ink/10 px-2 py-0.5 font-mono text-xs font-bold tabular-nums text-ink"
-          title="RICE score = (Reach × Impact × Confidence) / Effort"
-        >
-          {score.toFixed(1)}
-        </span>
-      </div>
+      {/* Score sits in the meta row below, not beside the title — the title
+          gets the card's full width so long single words (e.g. "Provisioning")
+          have room to wrap at a space instead of overflowing the card. */}
+      <h3 className="break-normal text-sm font-semibold leading-snug text-[#DCE8F5]">{feature.title}</h3>
 
       <div className="mt-1 flex items-center justify-between gap-2 text-xs text-[#8CA3BC]">
         <span className="flex min-w-0 items-center gap-1.5">
           <span className="theme-dot inline-block h-2 w-2 shrink-0 rounded-full" aria-hidden="true" />
           <span className="truncate">{feature.theme}</span>
         </span>
-        <span className="shrink-0 font-mono tabular-nums">
-          {feature.effort} pt{feature.effort === 1 ? "" : "s"}
+        <span className="flex shrink-0 items-center gap-1.5">
+          <span className="font-mono tabular-nums">
+            {feature.effort} pt{feature.effort === 1 ? "" : "s"}
+          </span>
+          <span
+            className="rounded-sm border border-ink/40 bg-ink/10 px-1.5 py-0.5 font-mono text-[10px] font-bold tabular-nums text-ink"
+            title="RICE score = (Reach × Impact × Confidence) / Effort"
+          >
+            {score.toFixed(1)}
+          </span>
         </span>
       </div>
     </div>
