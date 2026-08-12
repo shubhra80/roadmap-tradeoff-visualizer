@@ -4,11 +4,15 @@ An interactive tool for exploring how prioritization frameworks actually work â€
 adjust a feature's reach, impact, confidence, or effort and watch the quarterly
 roadmap re-rank in real time.
 
-**[Live demo â†’](https://roadmap-tradeoff-visualizer.vercel.app/)**
+<p align="center">
+  <a href="https://roadmap-tradeoff-visualizer.vercel.app/">
+    <img src="https://img.shields.io/badge/Live%20Demo-View%20it%20live-4A9EFF?style=for-the-badge" alt="Live Demo" />
+  </a>
+</p>
 
 <p align="center">
-  <img src="./backlog.png" width="48%" alt="Backlog panel with editable RICE scoring sliders" />
-  <img src="./roadmap.png" width="48%" alt="Recommended Roadmap panel showing features ranked into quarters" />
+  <img src="./backlog.png" width="440" alt="Backlog panel with editable RICE scoring sliders" />
+  <img src="./roadmap.png" width="440" alt="Recommended Roadmap panel showing features ranked into quarters" />
 </p>
 
 ## Why I built this
