@@ -1,12 +1,6 @@
-# Roadmap Tradeoff Visualizer
-
-An interactive tool for exploring how prioritization frameworks actually work —
-adjust a feature's reach, impact, confidence, or effort and watch the quarterly
-roadmap re-rank in real time.
-
 **[Live demo →](https://roadmap-tradeoff-visualizer.vercel.app/)**
 
-![Backlog and Roadmap panels showing live RICE scoring](./screenshots/backlog-roadmap-overview.png)
+![Backlog panel with editable RICE scoring sliders](./backlog-panel.png)
 
 ## Why I built this
 
@@ -34,24 +28,4 @@ than obvious wins.
 - **Mobile**: a tabbed Backlog/Roadmap view keeps the edit-and-see-the-result
   loop intact on narrow screens, instead of losing context in a long scroll.
 
-![Why-panel showing tradeoff reasoning for a feature](./screenshots/why-panel.png)
-
-## Stack
-
-React + Vite, Tailwind CSS, deployed on Vercel. Built end-to-end with Claude Code.
-
-## Status
-
-**Phase 1 & 2 complete**: static backlog, live RICE scoring, interactive
-quarterly roadmap, and per-feature tradeoff explanations with baseline
-divergence tracking — all client-side, no backend.
-
-**Possible next steps**: framework comparison (RICE vs. WSJF toggle), a
-shareable/exportable view of a customized roadmap.
-
-## Running locally
-
-\`\`\`bash
-npm install
-npm run dev
-\`\`\`
+![Recommended Roadmap panel showing features ranked into quarters](./roadmap-panel.png)
