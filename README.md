@@ -11,8 +11,8 @@ roadmap re-rank in real time.
 </p>
 
 <p align="center">
-  <img src="./backlog.png" width="440" alt="Backlog panel with editable RICE scoring sliders" />
-  <img src="./roadmap.png" width="440" alt="Recommended Roadmap panel showing features ranked into quarters" />
+  <img src="./backlog.png" height="300" alt="Backlog panel with editable RICE scoring sliders" />
+  <img src="./roadmap.png" height="300" alt="Recommended Roadmap panel showing features ranked into quarters" />
 </p>
 
 ## Why I built this
