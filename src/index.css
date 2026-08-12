@@ -24,7 +24,44 @@ body {
   background-color: var(--accent);
 }
 
-/* Range slider: recessive track, accent-colored thumb/fill via accent-color */
+/* Range slider: recessive track (the input's own background/height, styled
+   via Tailwind classes on the element) with a custom thumb. accent-color is
+   kept as a fallback for browsers that ignore the pseudo-elements below;
+   where they're supported, the pseudo-elements win and give us explicit
+   size control instead of relying on each browser's default thumb size. */
 input[type="range"] {
   accent-color: var(--accent, #6fb8e8);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  border-radius: 9999px;
+  background-color: var(--thumb-color, var(--accent, #6fb8e8));
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 14px;
+  height: 14px;
+  border: none;
+  border-radius: 9999px;
+  background-color: var(--thumb-color, var(--accent, #6fb8e8));
+  cursor: pointer;
+}
+
+/* Below `sm` (640px), enlarge the thumb well past mouse-cursor size — a
+   14px handle is too small to grab precisely with a fingertip. */
+@media (max-width: 639.98px) {
+  input[type="range"]::-webkit-slider-thumb {
+    width: 26px;
+    height: 26px;
+  }
+
+  input[type="range"]::-moz-range-thumb {
+    width: 26px;
+    height: 26px;
+  }
 }

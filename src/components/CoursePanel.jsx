@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { buildRoadmap, CAPACITY_PER_QUARTER } from "../lib/roadmap.js";
 import RoadmapCard from "./RoadmapCard.jsx";
 import CapacityBar from "./CapacityBar.jsx";
@@ -23,11 +23,24 @@ function QuarterColumn({ title, subtitle, capacityBar, children, empty }) {
   );
 }
 
+function quarterColumnProps(quarter) {
+  return {
+    title: quarter.label,
+    subtitle: `${quarter.items.length} feature${quarter.items.length === 1 ? "" : "s"}`,
+    capacityBar: <CapacityBar usedEffort={quarter.usedEffort} capacity={quarter.capacity} />,
+    empty: quarter.items.length === 0 ? "No capacity used yet." : null,
+    children: quarter.items.map(({ feature, score }) => (
+      <RoadmapCard key={feature.id} feature={feature} score={score} />
+    )),
+  };
+}
+
 // Live-reranking view: re-derives the whole board from `features` every
 // render, so any Backlog edit is reflected here immediately — this is the
 // only panel allowed to reorder as scores change.
 export default function CoursePanel({ features }) {
   const { quarters, later } = useMemo(() => buildRoadmap(features), [features]);
+  const [activeQuarter, setActiveQuarter] = useState(0);
 
   return (
     <section className="relative flex min-w-0 flex-col overflow-hidden rounded border border-ink/25 bg-surface shadow-sm lg:h-[calc(100vh-9.5rem)]">
@@ -40,19 +53,36 @@ export default function CoursePanel({ features }) {
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
-        <div className="grid grid-cols-2 gap-4 p-4 sm:grid-cols-4">
+        {/* Mobile: a 4-up grid has no room on a phone-width screen, so one
+            quarter shows at a time, switched via pill tabs — a vertical
+            stack fits the blueprint's instrument-panel feel better than a
+            swipeable carousel, and guarantees no horizontal scrolling. */}
+        <div className="p-4 sm:hidden">
+          <div className="mb-3 flex gap-1.5" role="tablist" aria-label="Quarter">
+            {quarters.map((quarter, i) => (
+              <button
+                key={quarter.label}
+                type="button"
+                role="tab"
+                aria-selected={activeQuarter === i}
+                onClick={() => setActiveQuarter(i)}
+                className={`flex-1 rounded-sm border px-2 py-2 font-mono text-xs font-semibold uppercase tracking-wide transition-colors ${
+                  activeQuarter === i
+                    ? "border-ink bg-ink/15 text-ink"
+                    : "border-white/15 text-[#8CA3BC] hover:border-ink/40"
+                }`}
+              >
+                {quarter.label}
+              </button>
+            ))}
+          </div>
+          <QuarterColumn {...quarterColumnProps(quarters[activeQuarter])} />
+        </div>
+
+        {/* sm and up: all four quarters side by side. */}
+        <div className="hidden gap-4 p-4 sm:grid sm:grid-cols-4">
           {quarters.map((quarter) => (
-            <QuarterColumn
-              key={quarter.label}
-              title={quarter.label}
-              subtitle={`${quarter.items.length} feature${quarter.items.length === 1 ? "" : "s"}`}
-              capacityBar={<CapacityBar usedEffort={quarter.usedEffort} capacity={quarter.capacity} />}
-              empty={quarter.items.length === 0 ? "No capacity used yet." : null}
-            >
-              {quarter.items.map(({ feature, score }) => (
-                <RoadmapCard key={feature.id} feature={feature} score={score} />
-              ))}
-            </QuarterColumn>
+            <QuarterColumn key={quarter.label} {...quarterColumnProps(quarter)} />
           ))}
         </div>
 
@@ -74,7 +104,7 @@ export default function CoursePanel({ features }) {
                 Everything fits within {CAPACITY_PER_QUARTER * 4} effort points across four quarters.
               </p>
             ) : (
-              <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+              <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-4">
                 {later.map(({ feature, score }) => (
                   <RoadmapCard key={feature.id} feature={feature} score={score} muted />
                 ))}

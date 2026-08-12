@@ -34,8 +34,8 @@ function Slider({ id, label, min, max, step, value, format, accent, onChange }) 
         step={step}
         value={value}
         onChange={onChange}
-        style={accent ? { accentColor: accent } : undefined}
-        className="mt-0.5 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-white/10"
+        style={accent ? { "--thumb-color": accent } : undefined}
+        className="mt-1 h-2 w-full cursor-pointer appearance-none rounded-full bg-white/10 sm:mt-0.5 sm:h-1.5"
       />
     </div>
   );
@@ -179,22 +179,12 @@ export default function ManifestRow({
 
   return (
     <div className="border-b border-ink/10 last:border-b-0" style={accentVars}>
-      <div className="flex flex-col gap-2.5 px-3 py-3 sm:hidden">
-        <div className="flex items-start justify-between gap-2">
-          <div className="flex min-w-0 items-start gap-2">
-            <span className="mt-0.5 shrink-0 font-mono text-[11px] tabular-nums text-[#7C93AD]">{feature.id}</span>
-            <TitleBlock feature={feature} />
-          </div>
-          <div className="flex shrink-0 items-center gap-2">
-            <div className="flex items-center gap-1">
-              <RankBadge rank={rank} total={totalCount} />
-              <WhyTrigger isOpen={isOpen} disabled={isDiverged} onClick={handleTriggerClick} />
-            </div>
-            <span className="h-5 w-px shrink-0 bg-ink/60" aria-hidden="true" />
-            <ScoreBadge score={score} />
-          </div>
+      <div className="flex flex-col gap-3 px-3 py-3 sm:hidden">
+        <div className="flex min-w-0 items-start gap-2">
+          <span className="mt-0.5 shrink-0 font-mono text-[11px] tabular-nums text-[#7C93AD]">{feature.id}</span>
+          <TitleBlock feature={feature} />
         </div>
-        <div className="grid grid-cols-2 gap-x-4 gap-y-2">
+        <div className="grid grid-cols-2 gap-x-4 gap-y-3">
           {SLIDER_FIELDS.map(({ key, ...field }) => (
             <Slider
               key={key}
@@ -204,6 +194,13 @@ export default function ManifestRow({
               {...field}
             />
           ))}
+        </div>
+        <div className="flex items-center justify-between border-t border-ink/10 pt-2.5">
+          <div className="flex items-center gap-2">
+            <RankBadge rank={rank} total={totalCount} />
+            <WhyTrigger isOpen={isOpen} disabled={isDiverged} onClick={handleTriggerClick} />
+          </div>
+          <ScoreBadge score={score} />
         </div>
       </div>
 
