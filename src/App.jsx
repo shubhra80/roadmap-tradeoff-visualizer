@@ -117,14 +117,15 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-transparent text-[#DCE8F5]">
-      <Login session={session} />
-
       <header className="border-b border-ink/20 bg-navy/80 px-6 py-4 backdrop-blur">
-        <div className="mx-auto max-w-[1600px]">
-          <h1 className="font-heading text-lg font-bold tracking-tight text-ink">Roadmap Tradeoff Visualizer</h1>
-          <p className="mt-0.5 text-sm text-[#8CA3BC]">
-            Edit reach, impact, confidence, and effort in the Backlog — watch the Recommended Roadmap re-rank live.
-          </p>
+        <div className="mx-auto flex max-w-[1600px] items-start justify-between gap-4">
+          <div>
+            <h1 className="font-heading text-lg font-bold tracking-tight text-ink">Roadmap Tradeoff Visualizer</h1>
+            <p className="mt-0.5 text-sm text-[#8CA3BC]">
+              Edit reach, impact, confidence, and effort in the Backlog — watch the Recommended Roadmap re-rank live.
+            </p>
+          </div>
+          <Login session={session} />
         </div>
       </header>
 
