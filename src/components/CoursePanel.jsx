@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react";
 import { buildRoadmap, CAPACITY_PER_QUARTER } from "../lib/roadmap.js";
+import { downloadRoadmapCSV } from "../lib/exportRoadmap.js";
 import RoadmapCard from "./RoadmapCard.jsx";
 import CapacityBar from "./CapacityBar.jsx";
 import CornerMarks from "./CornerMarks.jsx";
@@ -38,18 +39,31 @@ function quarterColumnProps(quarter) {
 // Live-reranking view: re-derives the whole board from `features` every
 // render, so any Backlog edit is reflected here immediately — this is the
 // only panel allowed to reorder as scores change.
-export default function CoursePanel({ features }) {
-  const { quarters, later } = useMemo(() => buildRoadmap(features), [features]);
+export default function CoursePanel({ features, capacityPerQuarter = CAPACITY_PER_QUARTER }) {
+  const { quarters, later } = useMemo(
+    () => buildRoadmap(features, capacityPerQuarter),
+    [features, capacityPerQuarter]
+  );
   const [activeQuarter, setActiveQuarter] = useState(0);
 
   return (
     <section className="relative flex min-w-0 flex-col overflow-hidden rounded border border-ink/25 bg-surface shadow-sm lg:h-[calc(100vh-9.5rem)]">
       <CornerMarks />
       <div className="shrink-0 border-b border-ink/20 px-4 py-3">
-        <h2 className="font-heading text-sm font-bold tracking-tight text-ink">Recommended Roadmap</h2>
-        <p className="mt-0.5 text-xs text-[#8CA3BC]">
-          Live plan, ranked by RICE score and packed into quarters by effort. Re-ranks as you edit.
-        </p>
+        <div className="flex items-start justify-between gap-3">
+          <div>
+            <h2 className="font-heading text-sm font-bold tracking-tight text-ink">Recommended Roadmap</h2>
+            <p className="mt-0.5 text-xs text-[#8CA3BC]">
+              Live plan, ranked by RICE score and packed into quarters by effort. Re-ranks as you edit.
+            </p>
+          </div>
+          <button
+            onClick={() => downloadRoadmapCSV(quarters, later)}
+            className="shrink-0 rounded-sm border border-ink bg-ink/15 px-2.5 py-1.5 font-mono text-[10px] font-semibold uppercase tracking-wide text-ink hover:bg-ink/25"
+          >
+            Export
+          </button>
+        </div>
       </div>
 
       <div className="min-h-0 flex-1 overflow-y-auto">
@@ -101,7 +115,7 @@ export default function CoursePanel({ features }) {
             </div>
             {later.length === 0 ? (
               <p className="text-xs italic text-[#7C93AD]">
-                Everything fits within {CAPACITY_PER_QUARTER * 4} effort points across four quarters.
+                Everything fits within {capacityPerQuarter * 4} effort points across four quarters.
               </p>
             ) : (
               <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-4">
